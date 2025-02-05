@@ -60,7 +60,9 @@ packer.startup({
     use({ "nvim-lualine/lualine.nvim", requires = { "nvim-tree/nvim-web-devicons", opt = true}})
     use("arkav/lualine-lsp-progress")
     -- telescope
-    use { 'nvim-telescope/telescope.nvim', requires = { "nvim-lua/plenary.nvim" } }
+    use { "nvim-telescope/telescope.nvim", requires = { "nvim-lua/plenary.nvim" } }
+    --telescope extensions
+    use {"LinArcX/telescope-env.nvim"}
     -------------------------------------------------------
   end,
   config = {
