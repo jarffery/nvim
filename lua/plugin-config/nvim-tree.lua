@@ -3,51 +3,38 @@ if not status then
     vim.notify("没有找到 nvim-tree")
   return
 end
--- 列表操作快捷键
-local list_keys = require('keybindings').nvimTreeList
-nvim_tree.setup({
-    -- 不显示 git 状态图标
-    git = {
-        enable = false,
-    },
-    -- project plugin 需要这样设置
-    update_cwd = true,
-    update_focused_file = {
-        enable = true,
-        update_cwd = true,
-    },
-    -- 隐藏 .文件 和 node_modules 文件夹
-    filters = {
-        dotfiles = true,
-        custom = { 'node_modules' },
-    },
-    view = {
-        -- 宽度
-        width = 40,
-        -- 也可以 'right'
-        side = 'left',
-        -- 不显示行数
-        number = false,
-        relativenumber = false,
-        -- 显示图标
-        signcolumn = 'yes',
-    },
-    on_attach = my_on_attach,
-    actions = {
-        open_file = {
-            -- 首次打开大小适配
-            resize_window = true,
-            -- 打开文件时关闭
-            quit_on_open = true,
-        },
-    },
-    -- wsl install -g wsl-open
-    -- https://github.com/4U6U57/wsl-open/
-    system_open = {
-        cmd = 'wsl-open', -- mac 直接设置为 open
-    },
+-- setup custom mapping through the my_on_attach container
+local function my_on_attach(bufnr)
+  local api = require "nvim-tree.api"
+
+  
+  local function opts(desc)
+    return { desc = "nvim-tree: " .. desc, buffer = bufnr, noremap = true, silent = true, nowait = true }
+  end
+
+  -- default mappings
+  api.config.mappings.default_on_attach(bufnr)
+
+  -- custom mappings
+  vim.keymap.set('n', '<C-t>', api.tree.change_root_to_parent,        opts('Up'))
+  vim.keymap.set('n', '?',     api.tree.toggle_help,                  opts('Help'))
+--  vim.keymap.set('n', 'v',     api.node.open.vertical,                opts)
+--  vim.keymap.set('n', 'h',     api.node.open.horizontal,              opts)
+end
+
+-- setup with some options
+require("nvim-tree").setup({
+  sort = {
+    sorter = "case_sensitive",
+  },
+  view = {
+    width = 30,
+  },
+  renderer = {
+    group_empty = true,
+  },
+  filters = {
+    dotfiles = true,
+  },
+  on_attach = my_on_attach,
 })
--- 自动关闭
-vim.cmd([[
-  autocmd BufEnter * ++nested if winnr('$') == 1 && bufname() == 'NvimTree_' . tabpagenr() | quit | endif
-]])
