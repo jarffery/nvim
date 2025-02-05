@@ -16,19 +16,18 @@ local function my_on_attach(bufnr)
   api.config.mappings.default_on_attach(bufnr)
 
   -- custom mappings
-  vim.keymap.set('n', '<C-t>', api.tree.change_root_to_parent,        opts('Up'))
   vim.keymap.set('n', '?',     api.tree.toggle_help,                  opts('Help'))
---  vim.keymap.set('n', 'v',     api.node.open.vertical,                opts)
---  vim.keymap.set('n', 'h',     api.node.open.horizontal,              opts)
+  vim.keymap.set('n', 'v', api.node.open.vertical, opts('Open Vertical Split'))
+  vim.keymap.set('n', 'h', api.node.open.horizontal, opts('Open Horizontal Split'))
 end
 
 -- setup with some options
-require("nvim-tree").setup({
+nvim_tree.setup({
   sort = {
     sorter = "case_sensitive",
   },
   view = {
-    width = 30,
+    width = 35,
   },
   renderer = {
     group_empty = true,
@@ -37,4 +36,14 @@ require("nvim-tree").setup({
     dotfiles = true,
   },
   on_attach = my_on_attach,
+    -- wsl install -g wsl-open
+    -- https://github.com/4U6U57/wsl-open/
+  system_open = {
+      cmd = 'wsl-open',
+  }  -- mac 直接设置为 open
 })
+-- 自动关闭
+vim.cmd([[
+  autocmd BufEnter * ++nested if winnr('$') == 1 && bufname() == 'NvimTree_' . tabpagenr() | quit | endif
+]])
+

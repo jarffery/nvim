@@ -99,3 +99,5 @@ pluginKeys.telescopeList = {
     ["<C-d>"] = "preview_scrolling_down",
   },
 }
+
+return pluginKeys

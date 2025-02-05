@@ -53,11 +53,11 @@ packer.startup({
     -------------------------------------------------------
     -------------------------- plugins --------------------
     -- nvim-tree
-    use({ "kyazdani42/nvim-tree.lua", requires = "kyazdani42/nvim-web-devicons" })  
+    use({ "nvim-tree/nvim-tree.lua", requires = {"nvim-tree/nvim-web-devicons" }})
      -- bufferline
-    use({ "akinsho/bufferline.nvim", requires = { "kyazdani42/nvim-web-devicons", "moll/vim-bbye" }})
+    use({ "akinsho/bufferline.nvim", tag = "*", requires = { "nvim-tree/nvim-web-devicons", "moll/vim-bbye" }})
     -- lualine
-    use({ "nvim-lualine/lualine.nvim", requires = { "kyazdani42/nvim-web-devicons" } })
+    use({ "nvim-lualine/lualine.nvim", requires = { "nvim-tree/nvim-web-devicons", opt = true}})
     use("arkav/lualine-lsp-progress")
     -- telescope
     use { 'nvim-telescope/telescope.nvim', requires = { "nvim-lua/plenary.nvim" } }
