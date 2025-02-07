@@ -25,7 +25,7 @@ vim.bo.shiftwidth = 2
 vim.o.expandtab = true
 vim.bo.expandtab = true
 -- 新行对齐当前行
-vim.o.autoindent = true
+vim.o.autoindent = truebasic
 vim.bo.autoindent = true
 vim.o.smartindent = true
 -- 搜索大小写不敏感，除非包含大写

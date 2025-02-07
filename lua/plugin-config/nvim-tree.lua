@@ -23,6 +23,13 @@ end
 
 -- setup with some options
 nvim_tree.setup({
+  -- Automatically sync with current working directory
+  sync_root_with_cwd = true,
+  respect_buf_cwd = true,  -- Makes nvim-tree respect the buffer's working directory
+  update_focused_file = {
+    enable = true,
+    update_root = true,  -- Replaces `update_cwd`
+  },
   sort = {
     sorter = "case_sensitive",
   },
