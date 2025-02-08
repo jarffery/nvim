@@ -1,3 +1,4 @@
+vim.opt.clipboard = 'unnamedplus' -- use system clipboard
 -- utf8
 vim.g.encoding = "UTF-8"
 vim.o.fileencoding = 'utf-8'
