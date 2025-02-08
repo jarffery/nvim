@@ -1,13 +1,13 @@
 local status, nvim_tree = pcall(require, "nvim-tree")
 if not status then
-    vim.notify("没有找到 nvim-tree")
+  vim.notify("没有找到 nvim-tree")
   return
 end
 -- setup custom mapping through the my_on_attach container
 local function my_on_attach(bufnr)
   local api = require "nvim-tree.api"
 
-  
+
   local function opts(desc)
     return { desc = "nvim-tree: " .. desc, buffer = bufnr, noremap = true, silent = true, nowait = true }
   end
@@ -43,10 +43,10 @@ nvim_tree.setup({
     dotfiles = true,
   },
   on_attach = my_on_attach,
-    -- wsl install -g wsl-open
-    -- https://github.com/4U6U57/wsl-open/
+  -- wsl install -g wsl-open
+  -- https://github.com/4U6U57/wsl-open/
   system_open = {
-      cmd = 'wsl-open',
+    cmd = 'wsl-open',
   }  -- mac 直接设置为 open
 })
 -- 自动关闭

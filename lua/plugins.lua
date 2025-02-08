@@ -67,7 +67,16 @@ packer.startup({
     use {'nvimdev/dashboard-nvim', requires = {'nvim-tree/nvim-web-devicons'}}
     -- project
     use("ahmedkhalf/project.nvim")
+    --treesiters
+    use({ "nvim-treesitter/nvim-treesitter", run = ":TSUpdate" })
     -------------------------------------------------------
+        --------------------- LSP --------------------
+    use("williamboman/mason.nvim")
+    -- Lspconfig
+    use {
+      "neovim/nvim-lspconfig",
+      "williamboman/mason-lspconfig.nvim",
+    }
   end,
   config = {
      display = {
