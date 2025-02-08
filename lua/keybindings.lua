@@ -100,6 +100,8 @@ pluginKeys.telescopeList = {
     ["<C-d>"] = "preview_scrolling_down",
   },
 }
-
+-- treesitter 折叠
+map("n", "zz", ":foldclose<CR>", opt)
+map("n", "Z", ":foldopen<CR>", opt)
 
 return pluginKeys

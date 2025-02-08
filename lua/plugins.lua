@@ -1,101 +1,47 @@
--- 自动安装 Packer.nvim
--- 插件安装目录
--- ~/.local/share/nvim/site/pack/packer/
-local fn = vim.fn
-local install_path = fn.stdpath("data") .. "/site/pack/packer/start/packer.nvim"
-local paccker_bootstrap
-if fn.empty(fn.glob(install_path)) > 0 then
-  vim.notify("正在安装Pakcer.nvim，请稍后...")
-  paccker_bootstrap = fn.system({
+-- 自动安装 lazy.nvim
+local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
+if not vim.loop.fs_stat(lazypath) then
+  vim.notify("正在安装 lazy.nvim，请稍后...")
+  vim.fn.system({
     "git",
     "clone",
-    "--depth",
-    "1",
-    "https://github.com/wbthomason/packer.nvim",
-    -- "https://gitcode.net/mirrors/wbthomason/packer.nvim",
-    install_path,
+    "--filter=blob:none",
+    "https://github.com/folke/lazy.nvim.git",
+    "--branch=stable",
+    lazypath,
   })
-
-  -- https://github.com/wbthomason/packer.nvim/issues/750
-  local rtp_addition = vim.fn.stdpath("data") .. "/site/pack/*/start/*"
-  if not string.find(vim.o.runtimepath, rtp_addition) then
-    vim.o.runtimepath = rtp_addition .. "," .. vim.o.runtimepath
-  end
-  vim.notify("Pakcer.nvim 安装完毕")
+  vim.notify("lazy.nvim 安装完毕")
 end
+vim.opt.rtp:prepend(lazypath)
 
--- Use a protected call so we don't error out on first use
-local status_ok, packer = pcall(require, "packer")
-if not status_ok then
-  vim.notify("没有安装 packer.nvim")
-  return
-end
-
-packer.startup({
-  function(use)
-    -- Packer 可以升级自己
-    use("wbthomason/packer.nvim")
-    --------------------- colorschemes --------------------
-    -- tokyonight
-    use("folke/tokyonight.nvim")
-    -- OceanicNext
-    use("mhartington/oceanic-next")
-    -- gruvbox
-    use({ "ellisonleao/gruvbox.nvim", requires = { "rktjmp/lush.nvim" } })
-    -- nord
-    use("shaunsingh/nord.nvim")
-    -- onedark
-    use("ful1e5/onedark.nvim")
-    -- nightfox
-    use("EdenEast/nightfox.nvim")
-    -- nomokai
-    use("tanvirtin/monokai.nvim")
-    -------------------------------------------------------
-    -------------------------- plugins --------------------
-    -- nvim-tree
-    use({ "nvim-tree/nvim-tree.lua", requires = {"nvim-tree/nvim-web-devicons" }})
-     -- bufferline
-    use({ "akinsho/bufferline.nvim", tag = "*", requires = { "nvim-tree/nvim-web-devicons", "moll/vim-bbye" }})
-    -- lualine
-    use({ "nvim-lualine/lualine.nvim", requires = { "nvim-tree/nvim-web-devicons", opt = true}})
-    use("arkav/lualine-lsp-progress")
-    -- telescope
-    use { "nvim-telescope/telescope.nvim", requires = { "nvim-lua/plenary.nvim" } }
-    --telescope extensions
-    use {"LinArcX/telescope-env.nvim"}
-    -- dashboard-nvim
-    use {'nvimdev/dashboard-nvim', requires = {'nvim-tree/nvim-web-devicons'}}
-    -- project
-    use("ahmedkhalf/project.nvim")
-    --treesiters
-    use({ "nvim-treesitter/nvim-treesitter", run = ":TSUpdate" })
-    -------------------------------------------------------
-        --------------------- LSP --------------------
-    use("williamboman/mason.nvim")
-    -- Lspconfig
-    use {
-      "neovim/nvim-lspconfig",
-      "williamboman/mason-lspconfig.nvim",
-    }
-  end,
-  config = {
-     display = {
-    -- 使用浮动窗口显示
-       open_fn = function()
-         return require("packer.util").float({ border = "single" })
-       end,
-     },
+-- 加载 lazy.nvim 并初始化插件
+require("lazy").setup({
+  --------------------- colorschemes --------------------
+  { "folke/tokyonight.nvim" },
+  { "mhartington/oceanic-next" },
+  { "ellisonleao/gruvbox.nvim", dependencies = { "rktjmp/lush.nvim" } },
+  { "shaunsingh/nord.nvim" },
+  { "ful1e5/onedark.nvim" },
+  { "EdenEast/nightfox.nvim" },
+  { "tanvirtin/monokai.nvim" },
+  -------------------------------------------------------
+  -------------------------- plugins --------------------
+  { "nvim-tree/nvim-tree.lua", dependencies = { "nvim-tree/nvim-web-devicons" } },
+  { "akinsho/bufferline.nvim", version = "*", dependencies = { "nvim-tree/nvim-web-devicons", "moll/vim-bbye" } },
+  { "nvim-lualine/lualine.nvim", dependencies = { "nvim-tree/nvim-web-devicons" } },
+  { "arkav/lualine-lsp-progress" },
+  { "nvim-telescope/telescope.nvim", dependencies = { "nvim-lua/plenary.nvim" } },
+  { "LinArcX/telescope-env.nvim" },
+  { "nvimdev/dashboard-nvim", dependencies = { "nvim-tree/nvim-web-devicons" } },
+  { "ahmedkhalf/project.nvim" },
+  { "nvim-treesitter/nvim-treesitter", build = ":TSUpdate" },
+  -------------------------------------------------------
+  --------------------- LSP ----------------------------
+  { "williamboman/mason.nvim" },
+  { "neovim/nvim-lspconfig" },
+  { "williamboman/mason-lspconfig.nvim" },
+}, {
+  ui = {
+    border = "single", -- 使用单线边框
   },
 })
-
--- 每次保存 plugins.lua 自动安装插件
--- move to autocmds.lua
-pcall(
-  vim.cmd,
-  [[
-    augroup packer_user_config
-    autocmd!
-    autocmd BufWritePost plugins.lua source <afile> | PackerSync
-    augroup end
-  ]]
-)
