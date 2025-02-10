@@ -1,0 +1,10 @@
+{
+    "editor.fontFamily": "'Agave Nerd Font','monospace', monospace",
+    "terminal.integrated.fontFamily": "Agave Nerd Font",
+    "notebook.markup.fontFamily": "Agave Nerd Font",
+    "terminal.integrated.fontWeight": "normal",
+    "editor.fontVariations": false,
+    "editor.codeLensFontFamily": "Agave Nerd Font",
+    "editor.codeLensFontSize": 0,
+    "editor.fontSize": 14
+}

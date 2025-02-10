@@ -1,5 +1,8 @@
 if vim.g.vscode then
     --VSCode extension
+    -- 基础配置
+    -- keymapping
+    --plugins setup
 else
     -- disable netrew at the very start
     vim.g.loaded_netrw = 1
