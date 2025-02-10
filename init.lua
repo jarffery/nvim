@@ -2,12 +2,7 @@
 vim.g.loaded_netrw = 1
 vim.g.loaded_netrwPlugin = 1
 -- load the required plugins
--- 基础配置
-require("basic")
--- keymapping
-require("keybindings")
--- colormap setup
-require("colorscheme")
+
 -- plugins setup
 require("plugins")
 require("plugin-config.nvim-tree")
@@ -19,4 +14,10 @@ require("plugin-config.project")
 require("plugin-config.nvim-treesitter")
 -- LSP
 --require("lsp")
+-- colormap setup
+require("colorscheme")
+-- 基础配置
+require("basic")
+-- keymapping
+require("keybindings")
 
