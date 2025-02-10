@@ -1,7 +1,6 @@
 if vim.g.vscode then
     --VSCode extension
     -- 基础配置
-    require("basic_vscode")
     -- keymapping
     --plugins setup
 else
